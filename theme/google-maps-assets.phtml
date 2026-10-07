@@ -1,0 +1,37 @@
+<?php // Rendered by a theme calling $template['serviceBlock']('google-maps-assets').
+// Call it once per page that shows a map. Expects $site (for the environment check)
+// and $googleMaps (this service's config, injected by the loader). Renders nothing
+// until the service is enabled and has a valid API key.
+//
+// Nothing is fetched from Google here. osmium-google-maps.js loads Google's script
+// only once the visitor has accepted cookies (Cookie Consent: the osmium_cookie_consent
+// cookie, or the osmium:consent event). On dev and staging there is no banner, so
+// consentRequired is false and the map loads at once.
+//
+// $googleMaps is read from the injected context rather than via GoogleMapsConfig::get(),
+// so a class that can't be autoloaded can't fatal the page. The key check mirrors
+// GoogleMapsConfig::isValidApiKey(). ?>
+<?php
+$enabled = (bool) ($googleMaps['enabled'] ?? false);
+$apiKey = (string) ($googleMaps['apiKey'] ?? '');
+$mapId = (string) ($googleMaps['mapId'] ?? '');
+$keyValid = \preg_match(pattern: '/^[A-Za-z0-9_-]{20,100}$/', subject: $apiKey) === 1;
+$mapIdValid = \preg_match(pattern: '/^[A-Za-z0-9_]{1,64}$/', subject: $mapId) === 1;
+$consentRequired = !\in_array($site['environment'] ?? '', ['dev', 'staging'], true);
+$base = '/assets/services/google-maps';
+$version = static function (string $file) use ($base): string {
+    $path = ($_SERVER['DOCUMENT_ROOT'] ?? '') . "{$base}/{$file}";
+    return \is_file($path) ? '?v=' . \filemtime($path) : '';
+};
+$settings = [
+    'apiKey' => $apiKey,
+    'mapId' => $mapIdValid ? $mapId : 'DEMO_MAP_ID',
+    'consentRequired' => $consentRequired,
+];
+?>
+<?php if ($enabled && $keyValid): ?>
+<link rel="stylesheet" href="<?= $base ?>/osmium-google-maps.css<?= $version('osmium-google-maps.css') ?>">
+<script>window.OsmiumGoogleMaps = <?= \json_encode($settings, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;</script>
+<script src="<?= $base ?>/markerclusterer.min.js" defer></script>
+<script src="<?= $base ?>/osmium-google-maps.js<?= $version('osmium-google-maps.js') ?>" defer></script>
+<?php endif; ?>

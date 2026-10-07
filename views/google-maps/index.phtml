@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between align-items-center py-3 mb-4">
+    <h4 class="mb-0">
+        <span class="text-muted fw-light">Services /</span> Google Maps
+    </h4>
+    <button type="submit" form="settings-form" class="btn btn-primary">
+        <i class="bx bx-save me-1"></i> Save Settings
+    </button>
+</div>
+
+<?php if ($admin['settingsSaved']): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Settings saved successfully!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if ($admin['settingsError'] ?? false): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= \htmlspecialchars($admin['settingsError'] ?? '') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<form method="POST" action="<?= $admin['basePath'] ?>settings/google-maps/" id="settings-form">
+    <input type="hidden" name="token" value="<?= $template['formToken'] ?? '' ?>">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bx bx-map-alt me-2"></i>Google Maps</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check form-switch mb-4">
+                        <input class="form-check-input" type="checkbox" role="switch" id="enabled" name="enabled" value="1"
+                            <?= !empty($admin['config']['googleMaps']['enabled']) ? 'checked' : '' ?>>
+                        <label class="form-check-label fw-semibold" for="enabled">Enabled</label>
+                        <div class="form-text">Off by default. Maps load Google only after a visitor accepts cookies, so Cookie Consent must be enabled too.</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="api_key" class="form-label fw-semibold">Maps JavaScript API key</label>
+                        <input type="text" class="form-control" id="api_key" name="api_key" autocomplete="off"
+                            value="<?= \htmlspecialchars($admin['config']['googleMaps']['apiKey'] ?? '') ?>">
+                        <div class="form-text">Created in Google Cloud (a billing account is required). The key is visible in the page source by design, so restrict it by HTTP referrer to this site and to the Maps JavaScript API only.</div>
+                    </div>
+                    <div class="mb-0">
+                        <label for="map_id" class="form-label fw-semibold">Map ID (optional)</label>
+                        <input type="text" class="form-control" id="map_id" name="map_id" autocomplete="off"
+                            value="<?= \htmlspecialchars($admin['config']['googleMaps']['mapId'] ?? '') ?>">
+                        <div class="form-text">Google requires a Map ID for the pins to appear. Create one under Map Management in Google Cloud. Left blank, the testing ID <code>DEMO_MAP_ID</code> is used, which Google says is not for production.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

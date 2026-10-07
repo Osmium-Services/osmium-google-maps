@@ -1,0 +1,66 @@
+{
+    "id": "google-maps",
+    "name": "Google Maps",
+    "version": "1.0.0",
+    "description": "Draws a map of pins (clustered, with a fullscreen button) on Google Maps, for a theme to place anywhere - the Google counterpart of Leaflet Maps, taking the same pin list. Needs your own API key (billing account); loads Google only after cookie consent",
+    "category": "developer",
+    "author": {
+        "name": "Gavin Cox"
+    },
+    "license": "proprietary",
+
+    "requires": {
+        "osmium": ">=1.0.0",
+        "php": ">=8.1",
+        "services": ["cookie-consent"]
+    },
+
+    "autoload": [
+        "models"
+    ],
+
+    "csp": {
+        "script-src": ["https://maps.googleapis.com", "blob:"],
+        "style-src": ["https://fonts.googleapis.com"],
+        "font-src": ["https://fonts.gstatic.com"],
+        "connect-src": ["https://maps.googleapis.com", "https://*.googleapis.com", "https://*.gstatic.com", "https://*.google.com"],
+        "frame-src": ["https://*.google.com"]
+    },
+
+    "admin": {
+        "menu": {
+            "section": "Content",
+            "items": [
+                {
+                    "id": "google-maps",
+                    "label": "Google Maps",
+                    "icon": "bx bx-map-alt",
+                    "route": "admin/settings/google-maps",
+                    "activePattern": "admin/settings/google-maps",
+                    "role": null
+                }
+            ]
+        },
+        "routes": {
+            "admin/settings/google-maps": {
+                "controller": "controllers/GoogleMapsController.php",
+                "class": "Osmium\\Services\\GoogleMaps\\Controllers\\GoogleMapsController",
+                "method": "index",
+                "title": "Google Maps"
+            }
+        }
+    },
+
+    "frontend": {
+        "themeBlocks": [
+            {
+                "hook": "google-maps-assets",
+                "file": "theme/google-maps-assets.phtml"
+            }
+        ]
+    },
+
+    "setup": {
+        "postInstallNote": "Create a Maps JavaScript API key in Google Cloud (billing account required) and restrict it by HTTP referrer to your site. Paste it on the Google Maps settings page and tick Enabled; Cookie Consent must be enabled too. Add <?php $template['serviceBlock']('google-maps-assets'); ?> once on any page that shows a map, then place a map with <div data-osmium-map='JSON'></div> - the same pin JSON as Leaflet Maps: {\"pins\":[{\"lat\":51.5,\"lng\":-0.12,\"title\":\"Name\",\"text\":\"Details\",\"url\":\"https://...\",\"inactive\":false}],\"height\":\"400px\",\"fullscreen\":true}. Install only one of Leaflet Maps and Google Maps on a site. Google loads only after a visitor accepts cookies (on dev and staging, where there is no banner, it loads at once). Untested against a live Google account."
+    }
+}
