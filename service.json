@@ -1,7 +1,7 @@
 {
     "id": "google-maps",
     "name": "Google Maps",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Draws a map of pins (clustered, with a fullscreen button) on Google Maps, for a theme to place anywhere - the Google counterpart of Leaflet Maps, taking the same pin list. Needs your own API key (billing account); loads Google only after cookie consent",
     "category": "developer",
     "author": {
