@@ -1,11 +1,11 @@
 {
     "id": "google-maps",
     "name": "Google Maps",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Draws a map of pins (clustered, with a fullscreen button) on Google Maps, for a theme to place anywhere - the Google counterpart of Leaflet Maps, taking the same pin list. Needs your own API key (billing account); loads Google only after cookie consent",
     "category": "developer",
     "website": "https://mapsplatform.google.com",
-    "account": {"required": "free", "note": "Needs a Google Cloud API key with billing enabled; usage beyond Google's free allowance is billed."},
+    "account": {"required": "free", "note": "Needs a Google Cloud billing account (card on file). Google's free monthly allowance covers a small site; usage beyond it is billed."},
     "author": {
         "name": "Gavin Cox"
     },
