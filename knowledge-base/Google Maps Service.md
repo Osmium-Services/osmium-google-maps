@@ -1,6 +1,6 @@
 # Google Maps Service
 
-Repo: `Osmium-Services/osmium-google-maps`, service id `google-maps`, category developer. Currently v1.0.7<!--v:google-maps--> (published 2026-10-07 as v1.0.0; v1.0.1 gave the map container a full width; v1.0.2 added the CSP nonce to the inline theme-block scripts). **Untested with a real Google key** (no paid account).
+Repo: `Osmium-Services/osmium-google-maps`, service id `google-maps`, category developer. Currently v1.0.8<!--v:google-maps--> (published 2026-10-07 as v1.0.0; v1.0.1 gave the map container a full width; v1.0.2 added the CSP nonce to the inline theme-block scripts). **Untested with a real Google key** (no paid account).
 
 ## What it does
 
