@@ -1,6 +1,7 @@
 ---
 title: Show a map of pins with Google Maps
 tags: google maps, map, pins, api key, map id, cookie consent
+page: admin/settings/google-maps
 ---
 
 **Google Maps** draws a map of pins, with clustering and a fullscreen button, wherever your site's design places it.
